@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "375520689990",
+    "firebase_url": "https://medicit-75571.firebaseio.com",
+    "project_id": "medicit-75571",
+    "storage_bucket": "medicit-75571.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375520689990:android:90946212323e6eb6ceef47",
+        "android_client_info": {
+          "package_name": "com.medicit_main"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375520689990-jncbd7ir7decl5tom737maj98slp40tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDd03o9cPYJDC0P6IFU9niiXEg7i6QpSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375520689990-jncbd7ir7decl5tom737maj98slp40tr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
