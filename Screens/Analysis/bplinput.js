@@ -21,8 +21,7 @@ const bplinput = ({navigation}) => {
   const [Data, setData] = useState([]);
   const [Systolic, setSystolic] = useState(0);
   const [Diastolic, setDiastolic] = useState(0);
-  const [bplData, setbplData] = useState([]);
-  let Date = [];
+  const [bplData, setbplData] = useState({});
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -39,8 +38,8 @@ const bplinput = ({navigation}) => {
 
     setDate(moment(date).format('DD/MM/YYYY').toString());
 
-    bplData.push({date: dd, month: mm, year: yy});
-
+    //bplData.push({date: dd, month: mm, year: yy});
+    setbplData({date: dd, month: mm, year: yy});
     hideDatePicker();
   };
 
@@ -63,14 +62,13 @@ const bplinput = ({navigation}) => {
       Alert.alert('Please select date!');
     } 
     else {
-      bplData[0].Systolic=Systolic;
-      bplData[0].Diastolic=Diastolic;
-      //console.log();
+      bplData.Systolic=Systolic;
+      bplData.Diastolic=Diastolic;
+      console.log(bplData);
       insertdata();
       
     }
   };
-
   return (
     <View style={styles.container}>
       <ImageBackground source={require('../../img/bg.jpg')} style={styles.image}>

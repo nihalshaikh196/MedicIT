@@ -20,13 +20,12 @@ const childInfo = ({navigation}) => {
   const [date, setDate] = useState('Select Date of birth');
   const [choosenDate, setDates] = useState([]);
   const [Name, setName] = useState('');
-
+  const [DateArray, setDatesArray] = useState({})
 
   let array = [];
   let day, month, year;
 
 
-  let Date = [];
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -43,14 +42,15 @@ const childInfo = ({navigation}) => {
 
     setDate(moment(date).format('DD/MM/YYYY').toString());
 
-    Date.push({date: dd, month: mm, year: yy});
+    //DateArray.push({date: dd, month: mm, year: yy});
 
-    setDates(Date);
+    setDatesArray({date: dd, month: mm, year: yy});
+    setDates(DateArray);
 
     hideDatePicker();
   };
 
-
+//console.log(DateArray);
 
   const isLeap = (y) => {
       if ((y % 100 != 0 && y % 4 == 0) || y % 400 == 0) return true;
@@ -204,10 +204,10 @@ const childInfo = ({navigation}) => {
         3650,
       ];
   
-      day =10;// parseInt(Date[0].date, 10);
-      month =10;// parseInt(Date[0].month, 10);
-      year = 2000;//parseInt(Date[0].year, 10);
-  console.log(Date);
+      day =parseInt(DateArray.date, 10);
+      month = parseInt(DateArray.month, 10);
+      year = parseInt(DateArray.year, 10);
+      //console.log(Date);
       //console.log(day,month,year);
       
       for (let i = 0; i < 24; i++) {

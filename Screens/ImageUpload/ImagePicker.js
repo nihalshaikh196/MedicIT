@@ -68,7 +68,7 @@ auth().currentUser.email
         {
           text: 'OK',
           onPress: () => {
-            let imageRef = FireBaseStorage.ref('reports/' + title);
+            let imageRef = FireBaseStorage.ref(auth().currentUser.email+'/'+ title);
             imageRef
               .delete()
               .then(() => {

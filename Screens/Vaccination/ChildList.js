@@ -20,7 +20,7 @@ import auth from '@react-native-firebase/auth';
 const ChildList = ({navigation}) => {
   const [childName, setchildName] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const [isrefresh, setRefresh] = useState(false);
+  const [isrefresh, setRefresh] = useState(true);
 
 
   const wait = (timeout) => {
@@ -36,15 +36,19 @@ const ChildList = ({navigation}) => {
   }, []);
 
   useEffect(() => {
+    let temp=[];
      database()
         .ref('/Vaccination/'+auth().currentUser.uid)
         .once('value')
         .then(snapshot => {
         for(id in snapshot.val()){
-          childName.push(id);
+          temp.push(id);
         }
+        setchildName(temp);
+        temp=[];
+
         });
-  }, []);
+  }, [isrefresh]);
 
   const deleteItem = (title) => {
     Alert.alert(
@@ -59,9 +63,10 @@ const ChildList = ({navigation}) => {
         {
           text: 'OK',
           onPress: () => {
-            let imageRef = database().ref('/Vaccination/'+auth().currentUser.uid+'/'+title);
-            imageRef
-              .delete()
+            let Ref = database().ref('/Vaccination/'+auth().currentUser.uid+'/'+title);
+
+            Ref
+            .remove()
               .then(() => {
                 setRefresh(!isrefresh);
                 setRefresh(!isrefresh);

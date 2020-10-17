@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,12 +8,49 @@ import {
 import {
     LineChart,
   } from "react-native-chart-kit";
-
+  import database from '@react-native-firebase/database';
+  import auth from '@react-native-firebase/auth';
 import {FloatingAction} from 'react-native-floating-action';
 
 const Graphs = ({navigation}) => {
 
-    
+  const [Diastolic, setDiastolic] = useState([]);
+  const [Systolic, setSystolic] = useState([]);
+  const [bslConcentration, setConcentration] = useState([]);
+
+
+
+    const calculateDays= ()=>{
+      var date1 = new Date("06/30/2019"); 
+      var date2 = new Date("07/30/2019");
+
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+
+    }
+
+    useEffect(() => {
+      let temp1 = [];
+      let temp2 = [];
+      let temp3 = [];
+      
+    database()
+        .ref('/Analysis/'+auth().currentUser.uid+'/bpl')
+        .once('value')
+        .then(snapshot => {
+         // console.log(snapshot);
+        for(id in snapshot.val()){
+          //console.log(snapshot.val()[id].Diastolic);
+          temp1.push(snapshot.val()[id].Diastolic);
+          setDiastolic(temp1);
+
+          temp2.push(snapshot.val()[id].Systolic);
+          setSystolic(temp2);
+          //setScheduleList(snapshot.val()[id]);
+        }
+        });
+  }, []);
 
   const actions = [
     {
@@ -45,7 +82,7 @@ const Graphs = ({navigation}) => {
       datasets: [
         {
           data: [
-            Math.random() * 100,
+            55,
             Math.random() * 100,
             Math.random() * 100,
             Math.random() * 100,

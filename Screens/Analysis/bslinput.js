@@ -19,7 +19,7 @@ const childInfo = ({navigation}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState('Select Date');
   const [Concentration, setConcentration] = useState(0);
-  const [bslData, setbslData] = useState([]);
+  const [bslData, setbslData] = useState({});
   
 
   const showDatePicker = () => {
@@ -37,7 +37,7 @@ const childInfo = ({navigation}) => {
 
     setDate(moment(date).format('DD/MM/YYYY').toString());
 
-    bslData.push({date: dd, month: mm, year: yy});
+    setbslData({date: dd, month: mm, year: yy});
 
     hideDatePicker();
   };
@@ -56,7 +56,7 @@ const childInfo = ({navigation}) => {
     } else if (date === 'Select Date') {
       Alert.alert('Please select date!');
     } else {
-      bslData[0].Concentration=Concentration;
+      bslData.Concentration=Concentration;
       insertdata();
       
     }

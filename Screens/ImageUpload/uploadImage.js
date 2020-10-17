@@ -55,9 +55,9 @@ const uploadImage = ({navigation}) => {
   };
 
   const selectImage = () => {
-    ImagePicker.launchImageLibrary(imagePickerOptions, (response) => {
+    ImagePicker.showImagePicker(imagePickerOptions, (response) => {
       if (response.didCancel) {
-        alert('Post canceled');
+        alert('No report selected!');
       } else if (response.error) {
         alert(response.error);
       } else {
@@ -67,9 +67,10 @@ const uploadImage = ({navigation}) => {
 
         setresponses(response);
 
-        // console.log(responses);
       }
     });
+
+  
   };
 
   return (

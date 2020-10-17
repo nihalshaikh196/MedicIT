@@ -81,7 +81,7 @@ export default class Vaccination extends Component {
                   <TextInput
                     style={styles.inputs}
                     placeholder="Height"
-                    keyboardType="default"
+                    keyboardType="numeric"
                     underlineColorAndroid="transparent"
                     onChangeText={(Height) =>
                       this.setState({
@@ -101,7 +101,7 @@ export default class Vaccination extends Component {
                   <TextInput
                     style={styles.inputs}
                     placeholder="Weight"
-                    keyboardType="default"
+                    keyboardType="numeric"
                     underlineColorAndroid="transparent"
                     onChangeText={(Weight) =>
                       this.setState({
