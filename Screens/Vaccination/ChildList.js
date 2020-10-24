@@ -27,7 +27,7 @@ const ChildList = ({navigation}) => {
     return new Promise((resolve) => {
       setTimeout(resolve, timeout);
     });
-  };
+  }; 
 
   const onRefresh = React.useCallback(() => {
     setRefresh(!isrefresh);
@@ -110,7 +110,7 @@ const ChildList = ({navigation}) => {
       <ImageBackground
         source={require('../../img/bg.jpg')}
         style={styles.bgimage}>
-        <Text style={styles.titleText}> List of Child </Text>
+        <Text style={styles.titleText}> List of Children </Text>
         <FlatList
           contentContainerStyle={styles.scrollView}
           refreshControl={

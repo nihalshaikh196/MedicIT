@@ -17,8 +17,7 @@ import moment from 'moment';
 
 const bplinput = ({navigation}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [date, setDate] = useState('Select Date');
-  const [Data, setData] = useState([]);
+  const [Dates, setDate] = useState('Select Date');
   const [Systolic, setSystolic] = useState(0);
   const [Diastolic, setDiastolic] = useState(0);
   const [bplData, setbplData] = useState({});
@@ -32,14 +31,12 @@ const bplinput = ({navigation}) => {
   };
 
   const handleConfirm = (date) => {
-    let dd = moment(date).format('DD').toString();
-    let mm = moment(date).format('MM').toString();
-    let yy = moment(date).format('YYYY').toString();
+    let tempDate=moment(date).format('DD/MM/YYYY').toString();
 
     setDate(moment(date).format('DD/MM/YYYY').toString());
 
-    //bplData.push({date: dd, month: mm, year: yy});
-    setbplData({date: dd, month: mm, year: yy});
+    setbplData({date: tempDate});
+
     hideDatePicker();
   };
 
@@ -58,13 +55,12 @@ const bplinput = ({navigation}) => {
     else if (Diastolic === 0) {
         Alert.alert('Please select diastolic pressure!');
       }
-    else if (date === 'Select Date') {
+    else if (Dates === 'Select Date') {
       Alert.alert('Please select date!');
     } 
     else {
       bplData.Systolic=Systolic;
       bplData.Diastolic=Diastolic;
-      console.log(bplData);
       insertdata();
       
     }
@@ -121,7 +117,7 @@ const bplinput = ({navigation}) => {
                 <Text
                   style={{color: '#1354b9', fontWeight: 'bold', fontSize: 20}}>
                   {' '}
-                  {date}{' '}
+                  {Dates}{' '}
                 </Text>
               </TouchableHighlight>
 

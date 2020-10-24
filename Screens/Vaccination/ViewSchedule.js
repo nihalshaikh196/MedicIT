@@ -8,7 +8,6 @@ import {
   FlatList,
 } from 'react-native';
 
-import {FloatingAction} from 'react-native-floating-action';
 import database from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 
@@ -60,18 +59,11 @@ const ViewSchedule = ({navigation}) => {
           <Text style={{color: '#52FFFF'}}>Sceduled Date: </Text>
           {item.date} / {item.month} / {item.year}{' '}
         </Text>
-        <Text style={styles.name}>
-          Given status:<Text style={{color: 'black'}}> No</Text>{' '}
-        </Text>
       </TouchableOpacity>
     );
   };
 
 
-
-
-
-//console.log(array);
     return (
         <View style={styles.container}>
         <View>
@@ -132,10 +124,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
       },
     
-      Card: {
-        backgroundColor: 'red',
-      },
-    
       icon: {
         width: 60,
         height: 60,
@@ -155,7 +143,7 @@ const styles = StyleSheet.create({
       },
       heading: {
         textAlign: 'left',
-        fontSize: 25,
+        fontSize: 30,
         paddingVertical: 6,
         fontWeight: '600',
         borderTopLeftRadius: 6,
@@ -166,7 +154,7 @@ const styles = StyleSheet.create({
       date: {
         color: '#323232',
         textAlign: 'left',
-        fontSize: 18,
+        fontSize: 23,
         marginLeft: 20,
         fontWeight: 'bold',
         paddingVertical: 3,

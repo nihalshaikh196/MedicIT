@@ -16,7 +16,7 @@ const AppNavigator = createStackNavigator(
     Dashboard: {
       screen: Dashboard,
       navigationOptions: {
-        headerShown: false,
+        headerShown: true,
       },
     },
 

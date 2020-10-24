@@ -1,9 +1,10 @@
-import React,{useEffect,useState} from 'react';
+import React,{ useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
   Text,
   Dimensions,
+  Alert,
 } from 'react-native';
 import {
     LineChart,
@@ -12,46 +13,99 @@ import {
   import auth from '@react-native-firebase/auth';
 import {FloatingAction} from 'react-native-floating-action';
 
+import { ScrollView } from 'react-native-gesture-handler';
+import { ActivityIndicator } from 'react-native-paper';
+
 const Graphs = ({navigation}) => {
 
   const [Diastolic, setDiastolic] = useState([]);
   const [Systolic, setSystolic] = useState([]);
   const [bslConcentration, setConcentration] = useState([]);
+  const [bplDate, setbplDate] = useState([]);
+  const [bslDate, setbslDate] = useState([]);
+  const [isloading, setLoading] = useState(true);
 
 
-
-    const calculateDays= ()=>{
-      var date1 = new Date("06/30/2019"); 
-      var date2 = new Date("07/30/2019");
-
-      var Difference_In_Time = date2.getTime() - date1.getTime();
-      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      let temp2 = ["22","25","14","11"];
+      let temp3 = ["22/5/2000","30/5/2000","26/5/2000","24/5/2000",];
 
 
-    }
+      const chartConfig= {
+        backgroundGradientFrom: "#1354b9",
+        backgroundGradientTo: "#99C5FF",
+        decimalPlaces: 2, // optional, defaults to 2dp
+        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        style: {
+          borderRadius: 16
+        },
+        propsForDots: {
+          r: "6",
+          strokeWidth: "2",
+          stroke: "#1354b9"
+        }
+      };
+
+
+      
 
     useEffect(() => {
       let temp1 = [];
-      let temp2 = [];
-      let temp3 = [];
-      
-    database()
+
+      const getdata=async()=>{
+
+       await database()
         .ref('/Analysis/'+auth().currentUser.uid+'/bpl')
         .once('value')
         .then(snapshot => {
-         // console.log(snapshot);
         for(id in snapshot.val()){
-          //console.log(snapshot.val()[id].Diastolic);
-          temp1.push(snapshot.val()[id].Diastolic);
-          setDiastolic(temp1);
 
-          temp2.push(snapshot.val()[id].Systolic);
-          setSystolic(temp2);
-          //setScheduleList(snapshot.val()[id]);
+
+          setDiastolic((prev)=>{
+            return [...prev,snapshot.val()[id].Diastolic]
+          });
+
+          setSystolic((prev)=>{
+            return [...prev,snapshot.val()[id].Systolic]
+          });
+
+          setbplDate((prev)=>{
+            return [...prev,snapshot.val()[id].date]
+          });
+
+          
         }
+        
         });
+
+
+        await database()
+        .ref('/Analysis/'+auth().currentUser.uid+'/bsl')
+        .once('value')
+        .then(snapshot => {
+        for(id in snapshot.val()){
+          
+          setConcentration((prev)=>{
+            return [...prev,snapshot.val()[id].Concentration]
+          });
+
+          setbslDate((prev)=>{
+            return [...prev,snapshot.val()[id].date]
+          });
+
+        }
+
+        setLoading(false);
+        });
+
+      }
+
+      getdata();
+      //console.log(temp1);
   }, []);
 
+
+  
   const actions = [
     {
         text: 'Add new BPL',
@@ -69,51 +123,121 @@ const Graphs = ({navigation}) => {
   ];
 
   return (
+
+    
     <View style={styles.container}>
-        <View>
+    
+        <View >
           <Text style={styles.Text}> Graphs </Text>
         </View>
 
+        {isloading?
+  (<ActivityIndicator size="large" color="#0000ff"/>):
+        (
+
+        <ScrollView style={{borderTopLeftRadius:30}}>
+
+  
         <View>
-  <Text>Bezier Line Chart</Text>
+  <Text style={styles.Type}>Blood Pressure Diastolic Chart</Text>
+
+  
   <LineChart
+  
     data={{
-      labels: ["January", "February", "March", "April", "May", "June"],
       datasets: [
         {
-          data: [
-            55,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100
-          ]
+          data:Diastolic
         }
-      ]
+      ],
+
+      legend:["Diastolic"]
+
     }}
     width={Dimensions.get("window").width} // from react-native
+
     height={220}
-    yAxisLabel="$"
-    yAxisSuffix="k"
+    yAxisLabel=""
+    withHorizontalLabels
+    yAxisSuffix=""
     yAxisInterval={1} // optional, defaults to 1
-    chartConfig={{
-      backgroundColor: "#e26a00",
-      backgroundGradientFrom: "#fb8c00",
-      backgroundGradientTo: "#ffa726",
-      decimalPlaces: 2, // optional, defaults to 2dp
-      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-      style: {
-        borderRadius: 16
-      },
-      propsForDots: {
-        r: "6",
-        strokeWidth: "2",
-        stroke: "#ffa726"
-      }
+    verticalLabelRotation={20}
+
+    onDataPointClick={({index}) => Alert.alert(bplDate[index])}
+
+    chartConfig={chartConfig}
+
+    style={{
+      marginVertical: 8,
+      borderRadius: 16
     }}
-    bezier
+  />
+
+</View>
+
+<View>
+  <Text style={styles.Type}>Blood Pressure Systolic Chart</Text>
+
+
+  <LineChart
+
+    data={{
+      datasets: [
+        {
+          data:Systolic
+        }
+      ],
+      legend:["Systolic"]
+    }}
+    width={Dimensions.get("window").width} // from react-native
+
+    height={220}
+    yAxisLabel=""
+    withHorizontalLabels
+    yAxisSuffix=""
+    yAxisInterval={1} 
+    verticalLabelRotation={20}
+
+    onDataPointClick={({index,value}) => Alert.alert(bplDate[index])}
+
+    chartConfig={chartConfig}
+
+    style={{
+      marginVertical: 8,
+      borderRadius: 16
+    }}
+  />
+
+</View>
+
+
+<View>
+  <Text style={styles.Type}>Blood Sugar Concentration Chart</Text>
+
+
+  <LineChart
+
+    data={{
+      datasets: [
+        {
+          data:bslConcentration
+        }
+      ],
+      legend:["Concentration"]
+    }}
+    width={Dimensions.get("window").width} // from react-native
+
+    height={220}
+    yAxisLabel=""
+    withHorizontalLabels
+    yAxisSuffix=""
+    yAxisInterval={1} // optional, defaults to 1
+    verticalLabelRotation={20}
+
+    onDataPointClick={({index,value}) => Alert.alert(bslDate[index])}
+
+    chartConfig={chartConfig}
+
     style={{
       marginVertical: 8,
       borderRadius: 16
@@ -121,34 +245,34 @@ const Graphs = ({navigation}) => {
   />
 </View>
 
+</ScrollView>
+)}
         <FloatingAction
           actions={actions}
           onPressItem={(name) => navigation.navigate(name)}
         />
 
     </View>
+
+
   );
 };
 
 export default Graphs;
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    flexDirection: 'row',
-    marginBottom: 20,
-    marginTop: 20,
-    marginLeft: 50,
-    width: 200,
-    height: 120,
-    borderRadius: 30,
-    backgroundColor: '#FF8913',
-  },
 
-
-  FlatListItemStyle: {
-    padding: 10,
+  Type:{
+    color: '#1354b9',
     fontSize: 20,
-    height: 50,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 5,
+    marginLeft: 10,
+    borderBottomWidth:2,
+    width:'83%'
+    //width: '80%',
+    //height: 50,
   },
 
   container: {
@@ -171,54 +295,5 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 50,
     borderRadius: 10,
-  },
-
-  icon: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#ee6e73',
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-  },
-
-  box: {
-    flex: 1,
-    backgroundColor: '#99C5FF',
-    height: 120,
-    borderRadius: 10,
-    elevation: 5,
-  },
-  heading: {
-    textAlign: 'left',
-    fontSize: 25,
-    paddingVertical: 6,
-    fontWeight: '600',
-    borderTopLeftRadius: 6,
-    borderTopRightRadius: 6,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  date: {
-    color: '#323232',
-    textAlign: 'left',
-    fontSize: 18,
-    marginLeft: 20,
-    fontWeight: 'bold',
-    paddingVertical: 3,
-    borderBottomLeftRadius: 6,
-    borderBottomRightRadius: 6,
-  },
-
-  name: {
-    color: '#52FFFF',
-    textAlign: 'left',
-    fontSize: 18,
-    marginLeft: 23,
-    fontWeight: 'bold',
-    paddingVertical: 3,
-    borderBottomLeftRadius: 6,
-    borderBottomRightRadius: 6,
   },
 });

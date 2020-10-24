@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator, ImageBackground} from 'react-native';
 import VaccineInfo from './vaccineInfo';
 import CheckBox from '@react-native-community/checkbox';
 
@@ -8,10 +8,16 @@ const Detail_info = ({navigation}) => {
 
   let name = navigation.getParam('name', 'No-data');
   return (
-    <View style={{flex: 1, backgroundColor: '#f8f8f9', paddingBottom: 30}}>
-      <VaccineInfo name={name} />
 
-      <View style={styles.center}>
+    <View style={{flex:1,justifyContent:"center"}}>
+    <ImageBackground
+        source={require('../../img/bg.jpg')}
+        style={styles.bgimage}>
+    <Text style={styles.Text}>{name}</Text>
+    <View style={{flex:1,borderTopLeftRadius:30,borderTopRightRadius:30, backgroundColor: '#f8f8f9', paddingBottom: 30}}>
+      <VaccineInfo name={name} />
+      
+      {/* <View style={styles.center}>
         <View
           style={{
             backgroundColor: '#ff8913',
@@ -32,7 +38,9 @@ const Detail_info = ({navigation}) => {
             tintColors={{true: 'blue'}}
           />
         </View>
-      </View>
+      </View> */}
+    </View>
+    </ImageBackground>
     </View>
   );
 };
@@ -41,25 +49,18 @@ export default Detail_info;
 
 const styles = StyleSheet.create({
   Text: {
-    color: 'black',
-    fontSize: 20,
+    color: 'white',
+    fontSize: 35,
     fontWeight: 'bold',
-    marginTop: 2,
-    marginLeft: 5,
+    marginTop: 150,
+    marginBottom:20,
+    marginLeft: 15,
   },
-
-  // textContainer: {
-  //   flexDirection: 'row',
-  //   marginLeft:'3.5%',
-  //   alignItems: 'center',
-  //   backgroundColor: '#ff8913',
-  //   borderWidth: 0.5,
-  //   borderColor: '#fff',
-  //   height: 145,
-  //   width: 150,
-  //   borderRadius: 25,
-  //   margin: 5,
-  // },
+  bgimage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
 
   center: {
     marginLeft: 15,

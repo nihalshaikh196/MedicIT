@@ -39,10 +39,11 @@ const State = ({ navigation, route }) => {
           <>
             <Text
               style={{
-                fontSize: 36,
-                textAlign: 'center',
+                fontSize: 50,
+                marginLeft:20,
+                fontWeight:'bold',
                 marginBottom: 10,
-                color: 'blue', //#e23028
+                color: 'blue',  
               }}>
               {name}
             </Text>

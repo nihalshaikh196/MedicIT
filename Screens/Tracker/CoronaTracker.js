@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, ImageBackground } from 'react-native';
 import Cards from './Cards';
 import Table from './Table';
 
@@ -24,6 +24,9 @@ const CoronaTracker = ({ navigation }) => {
   }, []);
 
   return (
+    <ImageBackground source={require('../../img/bg.jpg')}
+    style={styles.bgimage}>
+
     <View style={{ flex: 1, backgroundColor: '#f8f8f9', paddingBottom: 30 }}>
       {isLoading ? (
         <ActivityIndicator />
@@ -32,10 +35,11 @@ const CoronaTracker = ({ navigation }) => {
           <>
             <Text
               style={{
-                fontSize: 36,
-                textAlign: 'center',
+                fontSize: 50,
+                marginLeft:20,
+                fontWeight:'bold',
                 marginBottom: 10,
-                color: 'blue', //#e23028
+                color: 'blue', 
               }}>
               India
             </Text>
@@ -45,9 +49,17 @@ const CoronaTracker = ({ navigation }) => {
         </View>
       )}
     </View>
+    </ImageBackground>
   );
 };
 
 export default CoronaTracker;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  bgimage: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+    //transform: [{ rotate: "180deg" }],
+  },
+});

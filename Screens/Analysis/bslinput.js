@@ -31,13 +31,10 @@ const childInfo = ({navigation}) => {
   };
 
   const handleConfirm = (date) => {
-    let dd = moment(date).format('DD').toString();
-    let mm = moment(date).format('MM').toString();
-    let yy = moment(date).format('YYYY').toString();
-
+    let tempDate =moment(date).format('DD/MM/YYYY').toString();
     setDate(moment(date).format('DD/MM/YYYY').toString());
 
-    setbslData({date: dd, month: mm, year: yy});
+    setbslData({date: tempDate});
 
     hideDatePicker();
   };
